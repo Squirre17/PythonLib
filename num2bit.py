@@ -1,5 +1,5 @@
 '''
-8 => 1000 
+py num2bit.py 78 20 39 17
 '''
 import sys
 import os
@@ -22,23 +22,27 @@ def Dbg(msg):
 check = ["0", "1"]
 def calc(num):
   l = []
+  assert num > 0
   while num > 0:
     l.append(num % 2)
     num = num // 2
   l.reverse()
   l = list(map(lambda x: str(x), l))
-  return "".join(l)
+  ret = "".join(l)
+  align = ((len(ret) - 1)// 8 + 1 ) * 8 - len(ret)# align to 8
+  return align * "0" + ret
 
 def usage():
   print(
-    styles.YELLOW + "Usage " + styles.DEFAULT + ": py ./num2bit.py 8\n" +
+    styles.YELLOW + "Usage " + styles.DEFAULT + ": py ./num2bit.py 8 10 12\n" +
     styles.YELLOW + "   or " + styles.DEFAULT + ": hex not support yet"
   )
 
 def main():
   usage()
-  assert(len(sys.argv) == 2)
-  assert sys.argv[1].isnumeric()
-  print(calc(int(sys.argv[1])))
+  # assert(len(sys.argv) == 2)
+  for i in range(1, len(sys.argv)):
+    assert sys.argv[i].isnumeric()
+    print(f"{sys.argv[i]} : {calc(int(sys.argv[i]))}")
 
 main()
